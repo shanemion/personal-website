@@ -79,10 +79,10 @@ const App = () => {
     },
     {
       name: "Loci: Memory Palace",
-      link: "https://github.com/shanemion/Loci",
+      link: "https://www.linkedin.com/feed/update/urn:li:activity:7217186134391443456/",
       description: "AR/VR app for memory training",
       fullDescription:
-        "Memory champions don't remember everything in a cursory manner; they use the Loci technique, storing lists in familiar places. Loci: Memory Palace brings this method to life in the AVP. Walk through virtual environments that feel like home and attach objects to train your memory. Our demo features 50 dad jokes scattered throughout the palace, making memorization fun and effective. <br><br>Check out the <a href='https://www.linkedin.com/feed/update/urn:li:activity:7217186134391443456/' target='_blank' rel='noopener noreferrer'>LinkedIn post</a> for more details and visuals.",
+        "Memory champions don't remember everything in a cursory manner; they use the Loci technique, storing lists in familiar places. Loci: Memory Palace brings this method to life in the AVP. Walk through virtual environments that feel like home and attach objects to train your memory. Our demo features 50 dad jokes scattered throughout the palace, making memorization fun and effective. <br><br>Check out the <a href='https://github.com/shanemion/Loci' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
       image: "loci.png",
     },
     {
@@ -104,7 +104,7 @@ const App = () => {
     { 
       name: "PressHold: Social App",
       description: "UI Social App Mockup for a LinkTree alternative",
-      fullDescription: "I like personalizing online personas, so the way this would be used is pasting a link to your profile on a socail app (i.e. Instagram or X), and profile visitors would press and hold on your link to open a preview to see more about your interests!",
+      fullDescription: "I like personalizing online personas, so the way this would be used is pasting a link to your profile on a social app (i.e. Instagram or X), and profile visitors would press and hold on your link to open a preview to see more about your interests!",
       image: "presshold.png",
     }
   ];
@@ -119,6 +119,9 @@ const App = () => {
     "AR/VR",
     "Running",
     "Reading",
+    "Ethics/Philosophy (<a href='https://nhseb.org/mission' target='_blank' rel='noopener noreferrer'>Ethics Bowl Alum!</a>)",
+    "Calvin and Hobbes :)"
+
   ];
 
   return (
