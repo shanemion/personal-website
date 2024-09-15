@@ -40,7 +40,7 @@ const ProjectItem = ({ project }) => {
               <img
                 src={project.image}
                 alt={project.name}
-                style={{ maxWidth: "100%", height: "auto", marginTop: "10px" }}
+                style={{ ...(project.imageStyle || { maxWidth: "100%", height: "auto" }), marginTop: "10px" }}
               />
             </a>
           )}
@@ -68,7 +68,18 @@ const App = () => {
         "Directed, filmed, edited, and acted in the opening ceremony video for TreeHacks 10th anniversary",
       fullDescription:
         "Had a blast on this one, so much fun to make! Give it a watch.",
-      image: "opening.png",
+      // please resize the following image to be smaller:
+      image: "treehacks.png",
+    },
+    {
+      name: "My Stanford Instagram Takeover",
+      link: "https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view",
+      description: "Took over the Stanford Instagram for a day!",
+      fullDescription:
+        "I'm a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! Check out the video!",
+      image: "takeover.png",
+      imageStyle: { maxWidth: "300px", height: "auto" },
+
     },
     {
       name: "Joint Detection",
@@ -140,7 +151,24 @@ const App = () => {
       <p style={{ fontSize: "24px", marginBottom: "20px" }}>Shane Mion</p>
 
       <p style={{ marginBottom: "15px" }}>
-        I'm interning at{" "}
+        I am currently at{" "}
+        <a
+          href="https://en.valuenex.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#0000FF", textDecoration: "none" }}
+        >
+          VALUENEX
+        </a>{" "}
+        as a Data Analyst / SWE working on their new and improved visualization product, Radar 2.0. 
+      </p>
+
+      <p style={{ marginBottom: "15px" }}>
+        I am also a frosh Resident Assistant this year in Wilbur Hall at Stanford University!! Check out the takeover I got to do for the official Stanford instagram <a href="https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view" target="_blank" rel="noopener noreferrer" style={{ color: "#0000FF", textDecoration: "none" }}>here</a>!
+      </p>
+
+      <p style={{ marginBottom: "15px" }}>
+        I just finished interning abroad in Singapore at{" "}
         <a
           href="https://www.advance.ai/"
           target="_blank"
@@ -149,8 +177,7 @@ const App = () => {
         >
           AdvanceAI
         </a>{" "}
-        as a Product Manager on a TikTok Shop client project. Located in
-        Singapore!
+        as a Product Manager on a TikTok Shop client project.
       </p>
 
       <p style={{ marginBottom: "15px" }}>
@@ -167,7 +194,7 @@ const App = () => {
       </p>
 
       <p style={{ marginBottom: "15px" }}>
-        In addition to PM I've worked in full-stack dev, AR/VR, ML research, and
+        In addition to PM I've worked in full-stack dev, AR/VR, ML research, data analytics and
         marketing.
       </p>
 
