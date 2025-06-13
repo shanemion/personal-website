@@ -66,9 +66,10 @@ const App = () => {
 
   const projects = [
     {
-      name: "Teensy Smart Glasses Audio Synth System",
-      description: "A wearable smart glasses audio system from scratch",
-      fullDescription: "Designed and built a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects.",
+      name: "Aetherglass: Teensy Smart Glasses Audio Synth System",
+      description: "A wearable smart glasses audio system with cameras, IMU, and mic input from scratch",
+      fullDescription: "Designed and built a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects. Sound demo coming sept when I get home lol, it works!",
+      image: "hold.jpeg",
     },
     {
       name: "Robin: An Electronic EP",
