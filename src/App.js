@@ -247,7 +247,7 @@ const App = () => {
                 <span>LinkedIn</span>
               </a>
               <a
-                href="resume.pdf"
+                href="https://docs.google.com/document/d/1UQWmvfHImD8bnoCvgm1cKPse1pJPJWxev-kxOBJJlX4/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
@@ -394,7 +394,7 @@ const App = () => {
                 <span>LinkedIn</span>
               </a>
               <a
-                href="resume.pdf"
+                href="https://docs.google.com/document/d/1UQWmvfHImD8bnoCvgm1cKPse1pJPJWxev-kxOBJJlX4/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
