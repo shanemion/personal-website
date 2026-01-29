@@ -1,25 +1,94 @@
 import React, { useState, useEffect } from "react";
-import { ChevronDown, ChevronUp, Moon, Sun, Mail, Github, Linkedin, FileText } from "lucide-react";
+import { ChevronDown, ChevronUp, Moon, Sun, Mail, Github, Linkedin, FileText, Calendar, ExternalLink, ArrowUpDown } from "lucide-react";
 
-const ProjectItem = ({ project }) => {
+const CATEGORIES = ["All", "PM", "Full-Stack", "Hardware", "CV", "Audio", "Robotics", "XR"];
+const SORT_OPTIONS = [
+  { value: "featured", label: "Featured" },
+  { value: "recent", label: "Recent" },
+  { value: "domain", label: "By Domain" },
+];
+
+const ProjectItem = ({ project, featured = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const roleColors = {
+    PM: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
+    SWE: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+    Research: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+    Creative: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
+  };
+
   return (
-    <div className="group relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-gray-200/20 dark:hover:shadow-gray-900/20 hover:-translate-y-1">
-      <div className="p-8">
-        <div className="flex items-start justify-between mb-4">
-          <h3 className="text-xl font-medium text-gray-900 dark:text-white leading-tight">
+    <div 
+      className={`group relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-gray-200/20 dark:hover:shadow-gray-900/20 hover:-translate-y-1 cursor-pointer ${featured ? 'ring-2 ring-blue-500/20 dark:ring-blue-400/20' : ''}`}
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
+      {/* Thumbnail Preview */}
+      {project.image && (
+        <div className="relative h-40 overflow-hidden bg-gray-100 dark:bg-gray-800">
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            style={project.imageStyle}
+          />
+          {featured && (
+            <div className="absolute top-3 left-3 px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded-full">
+              Featured
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
+      )}
+      
+      <div className="p-6">
+        {/* Title + External Link */}
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
             {project.name}
           </h3>
+          {project.link && (
+            <a 
+              href={project.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex-shrink-0 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink className="w-4 h-4 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400" />
+            </a>
+          )}
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+
+        {/* Metadata Row */}
+        {(project.role || project.tech || project.outcome) && (
+          <div className="flex flex-wrap gap-2 mb-3">
+            {project.role && (
+              <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${roleColors[project.role] || roleColors.SWE}`}>
+                {project.role}
+              </span>
+            )}
+            {project.tech && (
+              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                {project.tech}
+              </span>
+            )}
+            {project.outcome && (
+              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                {project.outcome}
+              </span>
+            )}
+          </div>
+        )}
+
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed line-clamp-2">
           {project.description}
         </p>
         
         {isExpanded && (
-          <div className="mb-6 space-y-6 animate-in fade-in duration-300">
+          <div className="mb-4 space-y-4 animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"></div>
-            <div className="text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: project.fullDescription }}></div>
+            <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: project.fullDescription }}></div>
             {project.video && (
               <div className="w-full rounded-xl overflow-hidden">
                 <iframe
@@ -31,30 +100,30 @@ const ProjectItem = ({ project }) => {
                 ></iframe>
               </div>
             )}
-            {project.image && (
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group/image">
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="w-full h-auto rounded-xl transition-transform duration-300 group-hover/image:scale-[1.02]"
-                  style={project.imageStyle}
-                />
-              </a>
-            )}
           </div>
         )}
         
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors group/btn"
-        >
-          {isExpanded ? "Show Less" : "Show More"}
-          {isExpanded ? (
-            <ChevronUp className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-          ) : (
-            <ChevronDown className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
+        <div className="flex items-center justify-between">
+          <button
+            className="flex items-center gap-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+          >
+            {isExpanded ? "Show Less" : "Show More"}
+            {isExpanded ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
+          </button>
+          {project.categories && (
+            <div className="flex gap-1">
+              {project.categories.slice(0, 2).map((cat, i) => (
+                <span key={i} className="text-xs text-gray-400 dark:text-gray-500">
+                  {cat}{i === 0 && project.categories.length > 1 ? " ·" : ""}
+                </span>
+              ))}
+            </div>
           )}
-        </button>
+        </div>
       </div>
     </div>
   );
@@ -62,6 +131,8 @@ const ProjectItem = ({ project }) => {
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("featured");
 
   useEffect(() => {
     if (isDarkMode) {
@@ -75,6 +146,13 @@ const App = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const projects = [
     {
       name: "The Trolley Problem, as Seen by a Robot",
@@ -82,6 +160,11 @@ const App = () => {
       fullDescription: "A creative exploration of how vision models and automated systems influence life-or-death decisions, using a Stretch robot to symbolically represent the trolley problem. The robot uses computer vision to detect humans on each track, aggregates confidence scores, and makes decisions based on probabilistic assessments—mirroring how modern military systems use vision models in surveillance and targeting pipelines. Built as a state machine to demonstrate how these decisions are constantly being \"made\" in the real world. The project combines Stretch's dextrous control and vision input with artistic expression to confront the unsettling reality of how AI systems quantify uncertainty and perceived threat, implicitly influencing outcomes involving human lives. <br><br><strong>📹 <a href='https://docs.google.com/presentation/d/1vJSCqMeFdonOv7iClOtSASlHQYyT4aMbv5gw0zUchcE/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the Demo Video & Presentation →</a></strong>",
       link: "https://docs.google.com/presentation/d/1vJSCqMeFdonOv7iClOtSASlHQYyT4aMbv5gw0zUchcE/edit?usp=sharing",
       image: "trolley.png",
+      role: "Research",
+      tech: "Stretch Robot, CV",
+      outcome: "Demo",
+      categories: ["Robotics", "CV"],
+      featured: true,
     },
     {
       name: "ALERT: Audio-Visual Log Event Recognition Toolkit",
@@ -89,21 +172,35 @@ const App = () => {
       fullDescription: "Created with Mario Sumali. A full-stack application for parsing long audio and video files to identify key moments of interest. Built with React + TypeScript frontend, FastAPI backend, OpenAI Whisper for transcription, PyTorch for event detection, PostgreSQL database, and Celery + Redis for async task processing. Features a searchable web UI where users can upload files, view detected moments (gunshots, silence, motion, etc.), and filter by event type. <br><br><strong>📹 <a href='https://drive.google.com/file/d/1_x9oDATdkwZkX9DBiATogCMXNlO4-Uzl/view?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the Demo Video →</a></strong><br><br>Check out the <a href='https://github.com/mariosumali/ALERT' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
       link: "https://drive.google.com/file/d/1_x9oDATdkwZkX9DBiATogCMXNlO4-Uzl/view?usp=sharing",
       image: "alert.png",
+      role: "PM",
+      tech: "React, FastAPI, PyTorch",
+      outcome: "Demo",
+      categories: ["PM", "Full-Stack", "CV", "Audio"],
+      featured: true,
     },
     {
       name: "Speed Racer: Thunderhead Raceway Ray-Traced Render",
-      description: "Blender Cycles recreation of Speed Racer’s Thunderhead Raceway using custom-modeled car and track",
-      fullDescription: "A physically based recreation of a scene from <em>Speed Racer (2008)</em>, inspired by the Thunderhead Raceway sequence. We modeled the Mach 6 race car and track geometry from scratch using plane-and-fill techniques and a Nurbs-path-driven track, then applied custom UV unwrapped materials for the forged-steel track, car paint, and decals. The scene showcases ray-traced reflections, glossy surfaces, neon track lighting, and motion blur to capture the film’s ultra-stylized, 400 mph aesthetic. <br><br>The writeup details how we met the ray tracing, geometry, and texturing requirements, what assets were built vs. downloaded, and how we used tutorials for glowy lights and car modeling. <br><br><strong>📄 <a href='https://docs.google.com/document/d/1nrKUophbQIyzXnlH5sRgKmX8vNr_RB2FRojOtaVUddg/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Read the Speed Racer Project Writeup →</a></strong>",
+      description: "Blender Cycles recreation of Speed Racer's Thunderhead Raceway using custom-modeled car and track",
+      fullDescription: "A physically based recreation of a scene from <em>Speed Racer (2008)</em>, inspired by the Thunderhead Raceway sequence. We modeled the Mach 6 race car and track geometry from scratch using plane-and-fill techniques and a Nurbs-path-driven track, then applied custom UV unwrapped materials for the forged-steel track, car paint, and decals. The scene showcases ray-traced reflections, glossy surfaces, neon track lighting, and motion blur to capture the film's ultra-stylized, 400 mph aesthetic. <br><br>The writeup details how we met the ray tracing, geometry, and texturing requirements, what assets were built vs. downloaded, and how we used tutorials for glowy lights and car modeling. <br><br><strong>📄 <a href='https://docs.google.com/document/d/1nrKUophbQIyzXnlH5sRgKmX8vNr_RB2FRojOtaVUddg/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Read the Speed Racer Project Writeup →</a></strong>",
       link: "https://docs.google.com/document/d/1nrKUophbQIyzXnlH5sRgKmX8vNr_RB2FRojOtaVUddg/edit?usp=sharing",
       image: "speed_racer.png",
+      role: "Creative",
+      tech: "Blender, Cycles",
+      outcome: "Render",
+      categories: ["XR"],
+      featured: true,
     },
     {
       name: "Cleo: A Smart Wearable with Embedded AMOLED Display Applications",
       description: "Embedded applications for T5-E1 Touch AMOLED device with animated displays",
       fullDescription: "Embedded applications for the T5-E1 Touch AMOLED 1.75 device. Built two applications: Spiral Display (animated spiral pattern using digit characters with touch interaction) and Particle Name (dynamic particle-based display of \"SHANE\" with wave motion and touch interaction). Developed using TuyaOpen SDK and C/C++. <br><br>Check out the <a href='https://github.com/sutyazz/Martian-Project' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
       link: "https://github.com/sutyazz/Martian-Project",
-      image: "martian.png",
+      image: "cleo.jpg",
       video: "https://drive.google.com/file/d/1A1-TINn06BsAWFJfNKR5uzaCKOWz9e8O/preview",
+      role: "SWE",
+      tech: "C/C++, TuyaOpen SDK",
+      outcome: "Demo",
+      categories: ["Hardware"],
     },
     {
       name: "Aetherglass: Teensy Smart Glasses Audio Synth System",
@@ -111,6 +208,11 @@ const App = () => {
       fullDescription: "Designed and built a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects. Sound demo coming sept when I get home lol, it works!",
       link: "https://github.com/shanemion/smartglasses",
       image: "hold.jpeg",
+      role: "PM",
+      tech: "Teensy, TinyML",
+      outcome: "Prototype",
+      categories: ["Hardware", "Audio", "CV"],
+      featured: true,
     },
     {
       name: "Robin: An Electronic EP",
@@ -118,6 +220,10 @@ const App = () => {
       description: "Music and electronic sound projects I created as part of Music 101 at Stanford",
       fullDescription: "View the Read me in the google drive folder for more context!",
       image: "ep_cover_copy.JPG",
+      role: "Creative",
+      tech: "Ableton, Sound Design",
+      outcome: "EP Released",
+      categories: ["Audio"],
     },
     {
       name: "Where's Mario",
@@ -125,6 +231,10 @@ const App = () => {
       description: "Autonomous driving project for Stanford's ME210",
       fullDescription: "A project for Stanford's ME210, Intro to Mechatronics. Configured multiple Arduino Unos with sensors, motors, and actuators to build an autonomous robot chef. Click to check out the video! (our battery pack came undone lol)",
       image: "wheresmario.jpeg",
+      role: "PM",
+      tech: "Arduino, Sensors",
+      outcome: "Demo",
+      categories: ["PM", "Robotics", "Hardware"],
     },
     {
       name: "Loci: Memory Palace",
@@ -132,6 +242,10 @@ const App = () => {
       description: "AR/VR app for memory training",
       fullDescription: "Memory champions don't remember everything in a cursory manner; they use the Loci technique, storing lists in familiar places. Loci: Memory Palace brings this method to life in the AVP. Walk through virtual environments that feel like home and attach objects to train your memory. Our demo features 50 dad jokes scattered throughout the palace, making memorization fun and effective. <br><br>Check out the <a href='https://github.com/shanemion/Loci' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
       image: "loci.png",
+      role: "PM",
+      tech: "Unity, Apple Vision Pro",
+      outcome: "Demo",
+      categories: ["PM", "XR"],
     },
     {
       name: "CribU",
@@ -139,6 +253,10 @@ const App = () => {
       description: "Find your next internship roommate from your own school",
       fullDescription: "Stanford internship/full-time roommate matching app. Received 750+ impressions on beta announcement day.",
       image: "cribu.png",
+      role: "PM",
+      tech: "React, Firebase",
+      outcome: "750+ Users",
+      categories: ["PM", "Full-Stack"],
     },
     {
       name: "AirGtr",
@@ -146,6 +264,10 @@ const App = () => {
       description: "A gesture warping guitar with no physical instrument",
       fullDescription: "CV-based system that maps hand gestures to MIDI for expressive guitar performance with no physical instrument.",
       image: "airgtr.png",
+      role: "Research",
+      tech: "Python, CV, MIDI",
+      outcome: "Paper",
+      categories: ["CV", "Audio"],
     },
     {
       name: "MimicSpeech",
@@ -153,6 +275,10 @@ const App = () => {
       description: "A webapp to perfect your accent by mimicking native speakers",
       fullDescription: "Personal project designed to help improve accent and listening ability for foreign languages by recording themselves speak over a natural sounding, AI Text to Speech, presenting visual and calculated feedback. Built from scratch using Create React App",
       image: "mimicspeech.png",
+      role: "PM",
+      tech: "React, TTS API",
+      outcome: "Shipped",
+      categories: ["PM", "Full-Stack", "Audio"],
     },
     {
       name: "TreeHacks 2024 Opening Ceremony Video",
@@ -160,6 +286,10 @@ const App = () => {
       description: "Directed, filmed, edited, and acted in the opening ceremony video for TreeHacks 10th anniversary",
       fullDescription: "Had a blast on this one, so much fun to make! Give it a watch.",
       image: "opening.png",
+      role: "Creative",
+      tech: "Video Production",
+      outcome: "1K+ Views",
+      categories: ["PM"],
     },
     {
       name: "Carbonle",
@@ -167,6 +297,10 @@ const App = () => {
       description: "A Wordle for Carbon Emissions per Country",
       fullDescription: "Made for TreeHacks 2025",
       image: "carbonle.png",
+      role: "SWE",
+      tech: "Next.js, Vercel",
+      outcome: "Hackathon",
+      categories: ["Full-Stack"],
     },
     {
       name: "My Stanford Instagram Takeover",
@@ -175,12 +309,20 @@ const App = () => {
       fullDescription: "I'm a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! Check out the video!",
       image: "takeover.png",
       imageStyle: { maxWidth: "300px", height: "auto" },
+      role: "Creative",
+      tech: "Content Creation",
+      outcome: "10K+ Reach",
+      categories: ["PM"],
     },
     {
       name: "Joint Detection",
       link: "https://github.com/shanemion/jointdetection",
       description: "CV model for hand joint detection",
       fullDescription: "Wanted to get a footing in future smart wearable tech, so created this joint detection CV model and stored appropriate metrics to gather motion data for smart-ring wearable project I'm working on!",
+      role: "Research",
+      tech: "Python, OpenCV",
+      outcome: "Model",
+      categories: ["CV", "Hardware"],
     },
     {
       name: "Pitch to Contact",
@@ -188,6 +330,10 @@ const App = () => {
       description: "Interactive statistics/ml project for cs109",
       fullDescription: "An extra-credit project I procrastinated for Stanford's CS109, Probability for Computer Scientists. Made in 11 hours. Utilizes the logistic regression machine learning algorithm on a bunch of pitcher related data. Takes into account pitcher arm slot (release position), with a bunch of other happy things found here: 'release_speed', 'release_spin_rate', 'release_pos_x', 'release_pos_z', 'pfx_x', 'pfx_z', 'plate_x', 'plate_z', 'zone' <br><br>Check out <a href='https://github.com/shanemion/mlbproject' target='_blank' rel='noopener noreferrer'>the GitHub</a>.",
       image: "pitch.png",
+      role: "Research",
+      tech: "Python, ML",
+      outcome: "Shipped",
+      categories: ["Full-Stack", "CV"],
     },
     {
       name: "Spotify Looper",
@@ -195,12 +341,20 @@ const App = () => {
       description: "Spotify API project, loop that one OMG part of a really eh song",
       fullDescription: "Spotify Looper is a Python project that leverages the Spotify API to create a customizable looping feature for your favorite tracks. The loop's start and end times can be defined manually in the format MM:SS. This application uses the tkinter library to provide a simple and straightforward user interface.",
       image: "spotify.png",
+      role: "SWE",
+      tech: "Python, Spotify API",
+      outcome: "Shipped",
+      categories: ["Full-Stack", "Audio"],
     },
     { 
       name: "PressHold: Social App",
       description: "UI Social App Mockup for a LinkTree alternative",
       fullDescription: "I like personalizing online personas, so the way this would be used is pasting a link to your profile on a social app (i.e. Instagram or X), and profile visitors would press and hold on your link to open a preview to see more about your interests!",
       image: "presshold.png",
+      role: "PM",
+      tech: "Figma, UI/UX",
+      outcome: "Mockup",
+      categories: ["PM"],
     }
   ];
 
@@ -270,12 +424,33 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="font-medium text-gray-900 dark:text-white">Shane Mion</div>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+            
+            {/* Navigation Links */}
+            <nav className="hidden md:flex items-center gap-6">
+              <button onClick={() => scrollToSection('about')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">About</button>
+              <button onClick={() => scrollToSection('skills')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Skills</button>
+              <button onClick={() => scrollToSection('projects')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Projects</button>
+              <button onClick={() => scrollToSection('interests')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Interests</button>
+              <button onClick={() => scrollToSection('contact')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Contact</button>
+              <a 
+                href="https://calendly.com/shanemion/30min" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                <Calendar className="w-4 h-4" />
+                Schedule Chat
+              </a>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              >
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -339,11 +514,22 @@ const App = () => {
                 <span>Resume</span>
               </a>
             </div>
+            
+            {/* Calendly CTA */}
+            <a
+              href="https://calendly.com/shanemion/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/25 hover:-translate-y-0.5"
+            >
+              <Calendar className="w-5 h-5" />
+              <span>Schedule a Quick Chat</span>
+            </a>
           </div>
         </section>
 
         {/* About Section */}
-        <section className="max-w-4xl mx-auto px-6 py-16">
+        <section id="about" className="max-w-4xl mx-auto px-6 py-16">
           <div className="space-y-8">
             <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">About</h2>
             
@@ -442,7 +628,7 @@ const App = () => {
         </section>
 
         {/* Skills Section */}
-        <section className="max-w-7xl mx-auto px-6 py-16">
+        <section id="skills" className="max-w-7xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">Skills</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {skillGroups.map((group) => (
@@ -469,17 +655,79 @@ const App = () => {
         </section>
 
         {/* Projects Section */}
-        <section className="max-w-7xl mx-auto px-6 py-16">
-          <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectItem key={index} project={project} />
+        <section id="projects" className="max-w-7xl mx-auto px-6 py-16">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+            <h2 className="text-2xl font-light text-gray-900 dark:text-white">Projects</h2>
+            
+            {/* Sort Dropdown */}
+            <div className="flex items-center gap-2">
+              <ArrowUpDown className="w-4 h-4 text-gray-400" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {SORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Filter Chips */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                  activeFilter === category
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                {category}
+              </button>
             ))}
+          </div>
+
+          {/* Featured Projects */}
+          {activeFilter === "All" && sortBy === "featured" && (
+            <>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                Featured Projects
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+                {projects.filter(p => p.featured).map((project, index) => (
+                  <ProjectItem key={`featured-${index}`} project={project} featured={true} />
+                ))}
+              </div>
+              
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-6">All Projects</h3>
+            </>
+          )}
+
+          {/* All Projects Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {projects
+              .filter(project => {
+                if (activeFilter === "All") return !(activeFilter === "All" && sortBy === "featured" && project.featured);
+                return project.categories?.includes(activeFilter);
+              })
+              .sort((a, b) => {
+                if (sortBy === "featured") return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+                if (sortBy === "domain") return (a.categories?.[0] || "").localeCompare(b.categories?.[0] || "");
+                return 0; // recent - maintain order
+              })
+              .map((project, index) => (
+                <ProjectItem key={index} project={project} />
+              ))}
           </div>
         </section>
 
         {/* Interests Section */}
-        <section className="max-w-4xl mx-auto px-6 py-16">
+        <section id="interests" className="max-w-4xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">Interests</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {interests.map((interest, index) => (
@@ -493,7 +741,7 @@ const App = () => {
         </section>
 
         {/* Contact Section */}
-        <section className="max-w-4xl mx-auto px-6 py-24">
+        <section id="contact" className="max-w-4xl mx-auto px-6 py-24">
           <div className="text-center space-y-8">
             <h2 className="text-2xl font-light text-gray-900 dark:text-white">Let's Connect</h2>
             
@@ -529,6 +777,19 @@ const App = () => {
               >
                 <FileText className="w-5 h-5 transition-transform group-hover:scale-110" />
                 <span>Resume</span>
+              </a>
+            </div>
+            
+            {/* Calendly CTA */}
+            <div className="pt-4">
+              <a
+                href="https://calendly.com/shanemion/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/25 hover:-translate-y-0.5"
+              >
+                <Calendar className="w-5 h-5" />
+                <span>Schedule a Quick Chat</span>
               </a>
             </div>
           </div>
