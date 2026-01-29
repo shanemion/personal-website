@@ -266,7 +266,10 @@ const App = () => {
             
             <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
               <p>
-                This summer, I'll be a Product Manager Intern at{" "}
+                I am currently building for novel medical device companies to help achieve predictable insurance coverage. Reach out if you're interested in learning more. 
+              </p>
+              <p>
+                Last summer, I was a Product Manager Intern at{" "}
                 <a
                   href="https://www.tiktok.com/en/"
                   target="_blank"
