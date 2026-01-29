@@ -20,6 +20,17 @@ const ProjectItem = ({ project }) => {
           <div className="mb-6 space-y-6 animate-in fade-in duration-300">
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"></div>
             <div className="text-gray-700 dark:text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: project.fullDescription }}></div>
+            {project.video && (
+              <div className="w-full rounded-xl overflow-hidden">
+                <iframe
+                  src={project.video}
+                  className="w-full aspect-video rounded-xl"
+                  allow="autoplay"
+                  allowFullScreen
+                  title={project.name}
+                ></iframe>
+              </div>
+            )}
             {project.image && (
               <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group/image">
                 <img
@@ -65,6 +76,35 @@ const App = () => {
   };
 
   const projects = [
+    {
+      name: "The Trolley Problem, as Seen by a Robot",
+      description: "An artistic robotics vignette exploring AI decision-making using computer vision and ethical philosophy",
+      fullDescription: "A creative exploration of how vision models and automated systems influence life-or-death decisions, using a Stretch robot to symbolically represent the trolley problem. The robot uses computer vision to detect humans on each track, aggregates confidence scores, and makes decisions based on probabilistic assessments—mirroring how modern military systems use vision models in surveillance and targeting pipelines. Built as a state machine to demonstrate how these decisions are constantly being \"made\" in the real world. The project combines Stretch's dextrous control and vision input with artistic expression to confront the unsettling reality of how AI systems quantify uncertainty and perceived threat, implicitly influencing outcomes involving human lives. <br><br><strong>📹 <a href='https://docs.google.com/presentation/d/1vJSCqMeFdonOv7iClOtSASlHQYyT4aMbv5gw0zUchcE/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the Demo Video & Presentation →</a></strong>",
+      link: "https://docs.google.com/presentation/d/1vJSCqMeFdonOv7iClOtSASlHQYyT4aMbv5gw0zUchcE/edit?usp=sharing",
+      image: "trolley.png",
+    },
+    {
+      name: "ALERT: Audio-Visual Log Event Recognition Toolkit",
+      description: "A toolkit for uploading, transcribing, and detecting events in long audio/video files",
+      fullDescription: "Created with Mario Sumali. A full-stack application for parsing long audio and video files to identify key moments of interest. Built with React + TypeScript frontend, FastAPI backend, OpenAI Whisper for transcription, PyTorch for event detection, PostgreSQL database, and Celery + Redis for async task processing. Features a searchable web UI where users can upload files, view detected moments (gunshots, silence, motion, etc.), and filter by event type. <br><br><strong>📹 <a href='https://drive.google.com/file/d/1_x9oDATdkwZkX9DBiATogCMXNlO4-Uzl/view?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the Demo Video →</a></strong><br><br>Check out the <a href='https://github.com/mariosumali/ALERT' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
+      link: "https://drive.google.com/file/d/1_x9oDATdkwZkX9DBiATogCMXNlO4-Uzl/view?usp=sharing",
+      image: "alert.png",
+    },
+    {
+      name: "Speed Racer: Thunderhead Raceway Ray-Traced Render",
+      description: "Blender Cycles recreation of Speed Racer’s Thunderhead Raceway using custom-modeled car and track",
+      fullDescription: "A physically based recreation of a scene from <em>Speed Racer (2008)</em>, inspired by the Thunderhead Raceway sequence. We modeled the Mach 6 race car and track geometry from scratch using plane-and-fill techniques and a Nurbs-path-driven track, then applied custom UV unwrapped materials for the forged-steel track, car paint, and decals. The scene showcases ray-traced reflections, glossy surfaces, neon track lighting, and motion blur to capture the film’s ultra-stylized, 400 mph aesthetic. <br><br>The writeup details how we met the ray tracing, geometry, and texturing requirements, what assets were built vs. downloaded, and how we used tutorials for glowy lights and car modeling. <br><br><strong>📄 <a href='https://docs.google.com/document/d/1nrKUophbQIyzXnlH5sRgKmX8vNr_RB2FRojOtaVUddg/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Read the Speed Racer Project Writeup →</a></strong>",
+      link: "https://docs.google.com/document/d/1nrKUophbQIyzXnlH5sRgKmX8vNr_RB2FRojOtaVUddg/edit?usp=sharing",
+      image: "speed_racer.png",
+    },
+    {
+      name: "Cleo: A Smart Wearable with Embedded AMOLED Display Applications",
+      description: "Embedded applications for T5-E1 Touch AMOLED device with animated displays",
+      fullDescription: "Embedded applications for the T5-E1 Touch AMOLED 1.75 device. Built two applications: Spiral Display (animated spiral pattern using digit characters with touch interaction) and Particle Name (dynamic particle-based display of \"SHANE\" with wave motion and touch interaction). Developed using TuyaOpen SDK and C/C++. <br><br>Check out the <a href='https://github.com/sutyazz/Martian-Project' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
+      link: "https://github.com/sutyazz/Martian-Project",
+      image: "martian.png",
+      video: "https://drive.google.com/file/d/1A1-TINn06BsAWFJfNKR5uzaCKOWz9e8O/preview",
+    },
     {
       name: "Aetherglass: Teensy Smart Glasses Audio Synth System",
       description: "A wearable smart glasses audio system with cameras, IMU, and mic input from scratch",
@@ -180,6 +220,49 @@ const App = () => {
     "Calvin and Hobbes :)"
   ];
 
+  const skillGroups = [
+    {
+      title: "Product & Leadership",
+      skills: [
+        "Product strategy",
+        "0→1 prototyping",
+        "User research",
+        "Cross-functional leadership",
+      ],
+    },
+    {
+      title: "Full‑Stack Engineering",
+      skills: [
+        "React",
+        "JavaScript/TypeScript",
+        "Tailwind CSS",
+        "Python",
+        "REST APIs",
+        "Firebase",
+      ],
+    },
+    {
+      title: "ML / Vision / Audio",
+      skills: [
+        "Computer vision",
+        "PyTorch",
+        "Whisper (transcription)",
+        "TinyML",
+        "Data analysis",
+      ],
+    },
+    {
+      title: "Robotics / Embedded / XR",
+      skills: [
+        "Robotics control & HRI",
+        "Embedded C/C++",
+        "Sensor + hardware integration",
+        "Unity (VR/XR)",
+        "Blender / 3D",
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/50 to-gray-100/30 dark:from-gray-950 dark:via-gray-900/80 dark:to-gray-800/20 transition-colors duration-500">
       {/* Header */}
@@ -269,6 +352,21 @@ const App = () => {
                 I am currently building for novel medical device companies to help achieve predictable insurance coverage. Reach out if you're interested in learning more. 
               </p>
               <p>
+                This quarter I am also involved with the Stanford Robotics Center as part of{" "}
+                <a
+                  href="https://robots-and-arts.github.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
+                >
+                  CS334: Robots and Arts.
+                </a>{" "}
+                where I am learning about the Human-Robot Interaction frontier and programming robots to perform artsy tasks (Check out my Trolley Problem project below!).
+              </p>
+              <p>
+                Additionally, I am also building in VR with Unity and Pico4 to completement my XR and other interests.
+              </p>
+              <p>
                 Last summer, I was a Product Manager Intern at{" "}
                 <a
                   href="https://www.tiktok.com/en/"
@@ -286,7 +384,7 @@ const App = () => {
               </p>
 
               <p>
-                I was previously at{" "}
+                I continue to work part-time at{" "}
                 <a
                   href="https://www.valuenex.com/"
                   target="_blank"
@@ -340,6 +438,33 @@ const App = () => {
                 In addition to PM I've worked in full-stack dev, AR/VR, ML research, data analytics and marketing.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Skills Section */}
+        <section className="max-w-7xl mx-auto px-6 py-16">
+          <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">Skills</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {skillGroups.map((group) => (
+              <div
+                key={group.title}
+                className="p-6 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-800/50 rounded-xl hover:bg-white/70 dark:hover:bg-gray-900/70 transition-all duration-300"
+              >
+                <div className="text-sm font-medium text-gray-900 dark:text-white mb-4">
+                  {group.title}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200/60 dark:border-gray-700/60"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
