@@ -575,7 +575,7 @@ const App = () => {
               </p>
               
               <p>
-                I've recently been working on a project to create a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects.
+                I've recently been working on a project to create a wearable smart glasses audio system from scratch mapping motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects.
               </p>
 
              
@@ -594,7 +594,7 @@ const App = () => {
               </p>
 
               <p>
-                I've worked in full-stack dev, AR/VR, ML research, abroad in Singapore, as a Frosh RA, and in data analytics and marketing.
+                I've interested in full-stack dev, AR/VR, ML research, and data analytics and marketing. I've also worked abroad in Singapore and as a Frosh RA at Stanford! 
               </p>
             </div>
           </div>
