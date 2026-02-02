@@ -142,6 +142,15 @@ const App = () => {
     }
   }, [isDarkMode]);
 
+  // SEO: Update document title and meta description
+  useEffect(() => {
+    document.title = "Shane Mion - Product Manager & Developer | CS AI @ Stanford";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Shane Mion is a Product Manager and Developer studying CS AI at Stanford. Building for medical device companies, working on robotics, XR, and full-stack projects. Former PM at TikTok, currently at VALUENEX.');
+    }
+  }, []);
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -569,43 +578,7 @@ const App = () => {
                 I've recently been working on a project to create a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects.
               </p>
 
-              <p>
-                I continue to work part-time at{" "}
-                <a
-                  href="https://www.valuenex.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
-                >
-                  VALUENEX
-                </a>{" "}
-                as a SWE working on their new and improved visualization product, Radar 2.0.
-              </p>
-
-              <p>
-                I am also a frosh Resident Assistant this year in Wilbur Hall at Stanford University!! Check out the{" "}
-                <a
-                  href="https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
-                >
-                  takeover I got to do for the official Stanford instagram here!
-                </a>
-              </p>
-
-              <p>
-                I interned abroad in Singapore in 2024 at{" "}
-                <a
-                  href="https://www.advance.ai/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
-                >
-                  AdvanceAI
-                </a>{" "}
-                as a Product Manager on a TikTok Shop client project.
-              </p>
+             
 
               <p>
                 I also helped lead{" "}
@@ -621,7 +594,7 @@ const App = () => {
               </p>
 
               <p>
-                In addition to PM I've worked in full-stack dev, AR/VR, ML research, data analytics and marketing.
+                I've worked in full-stack dev, AR/VR, ML research, abroad in Singapore, as a Frosh RA, and in data analytics and marketing.
               </p>
             </div>
           </div>
