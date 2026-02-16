@@ -1,5 +1,147 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronUp, Moon, Sun, Mail, Github, Linkedin, FileText, Calendar, ExternalLink, ArrowUpDown } from "lucide-react";
+
+const ParticleBorder = () => {
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    let startTime = null;
+
+    const PAD = 8;
+    const R = 16;
+    const DURATION = 8000;
+    const TRAIL_SAMPLES = 60;
+    const TRAIL_DIST = 0.065;
+    const LUT_N = 1024;
+
+    const resize = () => {
+      const pr = canvas.parentElement.getBoundingClientRect();
+      canvas.width = (pr.width + PAD * 2) * dpr;
+      canvas.height = (pr.height + PAD * 2) * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas.parentElement);
+
+    const getPoint = (t, w, h) => {
+      const topL = w - 2 * R, rightL = h - 2 * R, botL = w - 2 * R, leftL = h - 2 * R;
+      const arcL = (Math.PI / 2) * R;
+      const total = topL + rightL + botL + leftL + 4 * arcL;
+      let d = (((t % 1) + 1) % 1) * total;
+      if (d < topL) return { x: PAD + R + d, y: PAD };
+      d -= topL;
+      if (d < arcL) { const a = -Math.PI/2 + (d/arcL)*Math.PI/2; return { x: PAD+w-R+Math.cos(a)*R, y: PAD+R+Math.sin(a)*R }; }
+      d -= arcL;
+      if (d < rightL) return { x: PAD + w, y: PAD + R + d };
+      d -= rightL;
+      if (d < arcL) { const a = (d/arcL)*Math.PI/2; return { x: PAD+w-R+Math.cos(a)*R, y: PAD+h-R+Math.sin(a)*R }; }
+      d -= arcL;
+      if (d < botL) return { x: PAD + w - R - d, y: PAD + h };
+      d -= botL;
+      if (d < arcL) { const a = Math.PI/2+(d/arcL)*Math.PI/2; return { x: PAD+R+Math.cos(a)*R, y: PAD+h-R+Math.sin(a)*R }; }
+      d -= arcL;
+      if (d < leftL) return { x: PAD, y: PAD + h - R - d };
+      d -= leftL;
+      const a = Math.PI+(d/arcL)*Math.PI/2;
+      return { x: PAD+R+Math.cos(a)*R, y: PAD+R+Math.sin(a)*R };
+    };
+
+    let cachedW = 0, cachedH = 0, lut = null;
+
+    const buildLUT = (w, h) => {
+      const topL = w-2*R, rightL = h-2*R, botL = w-2*R, leftL = h-2*R;
+      const arcL = (Math.PI/2)*R;
+      const lengths = [topL, arcL, rightL, arcL, botL, arcL, leftL, arcL];
+      const total = lengths.reduce((a,b)=>a+b, 0);
+      const bounds = [0];
+      let acc = 0;
+      for (const l of lengths) { acc += l; bounds.push(acc / total); }
+
+      const speed = new Float64Array(LUT_N);
+      for (let i = 0; i < LUT_N; i++) {
+        const t = i / LUT_N;
+        let si = 0;
+        for (let j = 0; j < lengths.length; j++) { if (t < bounds[j+1]) { si = j; break; } }
+        const isLine = si % 2 === 0;
+        if (!isLine) { speed[i] = 1; continue; }
+        const local = (t - bounds[si]) / (bounds[si+1] - bounds[si]);
+        speed[i] = 0.35 + 0.65 * Math.sin(Math.PI * local);
+      }
+
+      const cumul = new Float64Array(LUT_N + 1);
+      for (let i = 0; i < LUT_N; i++) cumul[i+1] = cumul[i] + speed[i];
+      const totalC = cumul[LUT_N];
+      const table = new Float64Array(LUT_N + 1);
+      for (let i = 0; i <= LUT_N; i++) table[i] = cumul[i] / totalC;
+      return table;
+    };
+
+    const sampleLUT = (rawT) => {
+      const t = ((rawT % 1) + 1) % 1;
+      let lo = 0, hi = LUT_N;
+      while (lo < hi) { const m = (lo+hi)>>1; if (lut[m] < t) lo = m+1; else hi = m; }
+      if (lo === 0) return 0;
+      const f = (t - lut[lo-1]) / (lut[lo] - lut[lo-1] || 1e-10);
+      return (lo - 1 + f) / LUT_N;
+    };
+
+    const draw = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const rawT = (elapsed % DURATION) / DURATION;
+      const pr = canvas.parentElement.getBoundingClientRect();
+      const w = pr.width, h = pr.height;
+
+      if (w !== cachedW || h !== cachedH) { lut = buildLUT(w,h); cachedW = w; cachedH = h; }
+
+      ctx.clearRect(0, 0, w + PAD*2, h + PAD*2);
+
+      const easedT = sampleLUT(rawT);
+
+      for (let i = TRAIL_SAMPLES; i >= 0; i--) {
+        const offset = (i / TRAIL_SAMPLES) * TRAIL_DIST;
+        const trailEased = sampleLUT(((rawT - offset) % 1 + 1) % 1);
+        const p = getPoint(trailEased, w, h);
+        const progress = 1 - i / TRAIL_SAMPLES;
+        const radius = 3.2 * Math.pow(progress, 1.3);
+        const alpha = Math.pow(progress, 2.2) * 0.8;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.max(0.2, radius), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(16, 185, 129, ${alpha})`;
+        ctx.fill();
+      }
+
+      const head = getPoint(easedT, w, h);
+      ctx.beginPath();
+      ctx.arc(head.x, head.y, 7, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(head.x, head.y, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#10b981';
+      ctx.fill();
+
+      animRef.current = requestAnimationFrame(draw);
+    };
+
+    animRef.current = requestAnimationFrame(draw);
+    return () => { cancelAnimationFrame(animRef.current); ro.disconnect(); };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute pointer-events-none"
+      style={{ top: '-8px', left: '-8px', width: 'calc(100% + 16px)', height: 'calc(100% + 16px)', zIndex: 10 }}
+    />
+  );
+};
 
 const CATEGORIES = ["All", "PM", "Full-Stack", "Hardware", "CV", "Audio", "Robotics", "XR"];
 const SORT_OPTIONS = [
@@ -489,12 +631,14 @@ const App = () => {
             </div>
             
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-600 to-transparent mx-auto"></div>
-            <div className="flex items-center justify-center gap-2 text-gray-700 dark:text-gray-300">
-              <Mail className="w-5 h-5" />
-              <span>smion@stanford.edu</span>
-            </div>
             <div className="flex justify-center gap-8">
-              
+              <a
+                href="mailto:smion@stanford.edu"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+              >
+                <Mail className="w-5 h-5 transition-transform group-hover:scale-110" />
+                <span>smion@stanford.edu</span>
+              </a>
               <a
                 href="https://github.com/shanemion"
                 target="_blank"
@@ -523,17 +667,84 @@ const App = () => {
                 <span>Resume</span>
               </a>
             </div>
+          </div>
+        </section>
+
+        {/* TreeHacks 2026 Showcase */}
+        <section className="max-w-4xl mx-auto px-6 py-3">
+          <div className="group relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-100 dark:border-gray-800 rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-gray-200/20 dark:hover:shadow-gray-900/20">
+            <ParticleBorder />
+
+            {/* 3-column media grid - hide images on mobile, only show video */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3 sm:mb-4">
+              {/* Image 1 - Hidden on mobile */}
+              <div className="hidden sm:block relative overflow-hidden rounded-xl aspect-video bg-gray-100 dark:bg-gray-800">
+                <img
+                  src="shepherd-1.png"
+                  alt="Shepherd Smart Cane"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 dark:text-gray-600 text-sm">Image 1</div>';
+                  }}
+                />
+              </div>
+              
+              {/* Image 2 - Hidden on mobile */}
+              <div className="hidden sm:block relative overflow-hidden rounded-xl aspect-video bg-gray-100 dark:bg-gray-800">
+                <img
+                  src="shepherd-2.jpg"
+                  alt="Shepherd Smart Cane - Stage selfie"
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 dark:text-gray-600 text-sm">Image 2</div>';
+                  }}
+                />
+              </div>
+              
+              {/* YouTube Video Thumbnail - Smaller on mobile */}
+              <a
+                href="https://www.youtube.com/watch?v=nJ5YjK1-0c0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative overflow-hidden rounded-xl aspect-video bg-gray-100 dark:bg-gray-800 group/video sm:col-span-1 mx-auto w-full max-w-xs sm:max-w-none"
+              >
+                <img
+                  src="https://img.youtube.com/vi/nJ5YjK1-0c0/maxresdefault.jpg"
+                  alt="Shepherd Demo Video"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover/video:scale-105"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 dark:text-gray-600 text-sm">Video Thumbnail</div>';
+                  }}
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/video:bg-black/30 transition-colors">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-red-600 flex items-center justify-center shadow-xl transform transition-transform group-hover/video:scale-110">
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            </div>
             
-            {/* Calendly CTA */}
-            <a
-              href="https://calendly.com/shanemion/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-600/25 hover:-translate-y-0.5"
-            >
-              <Calendar className="w-5 h-5" />
-              <span>Schedule a Quick Chat</span>
-            </a>
+            {/* Caption with Devpost link */}
+            <p className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              Learn more about{" "}
+              <span className="font-medium text-gray-900 dark:text-white">Shepherd</span> here, our project for{" "}
+              <span className="font-medium">TreeHacks 2026</span>:{" "}
+              <a
+                href="https://devpost.com/software/raising-cane"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors border-b border-blue-600/30 hover:border-blue-600"
+              >
+                Devpost
+                <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              </a>
+            </p>
           </div>
         </section>
 
