@@ -738,9 +738,8 @@ const App = () => {
             
             {/* Caption with Devpost link */}
             <p className="text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-              Learn more about{" "}
-              <span className="font-medium text-gray-900 dark:text-white">Shepherd</span> here, our project for{" "}
-              <span className="font-medium">TreeHacks 2026</span>:{" "}
+              <span className="font-medium">TreeHacks 2026 Grand Prize</span> -{" "}
+              <span className="font-medium text-gray-900 dark:text-white">Shepherd</span>, a smart cane for the blind:{" "}
               <a
                 href="https://devpost.com/software/raising-cane"
                 target="_blank"
