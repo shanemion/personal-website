@@ -772,10 +772,8 @@ const App = () => {
                 >
                   CS334: Robots and Arts.
                 </a>{" "}
-                where I am learning about the Human-Robot Interaction frontier and programming robots to perform artsy tasks (Check out my Trolley Problem project below!).
-              </p>
-              <p>
-                Additionally, I am also building in VR with Unity and Pico4 to complement my XR and other interests.
+                where I am learning about Human-Robot Interaction. I'm also building in VR with Unity and Pico4 to continue learning about XR/AR.
+
               </p>
               <p>
                 Last summer, I was a Product Manager Intern at{" "}
@@ -789,13 +787,9 @@ const App = () => {
                 </a>{" "}
                 in Seattle focused on driving long-term CSP e-commerce business development by leveraging the power of recommendation and personalization.
               </p>
-              
-              <p>
-                I've recently been working on a project to create a wearable smart glasses audio system from scratch mapping motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects.
-              </p>
 
-             
 
+          
               <p>
                 I also helped lead{" "}
                 <a
@@ -804,13 +798,13 @@ const App = () => {
                   rel="noopener noreferrer"
                   className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
                 >
-                  TreeHacks
+                  TreeHacks 10
                 </a>{" "}
                 - Stanford's annual hackathon and one of the largest in the world.
               </p>
 
               <p>
-                I'm interested in full-stack dev, AR/VR, ML research, and data analytics and marketing. I've also worked abroad in Singapore and as a Frosh RA at Stanford! 
+                I'm interested in building products that bring extensions to the human experience, whether on the software, hardware, or product side, and am always learning new ways to do so!
               </p>
             </div>
           </div>
