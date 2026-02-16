@@ -315,7 +315,7 @@ const App = () => {
       name: "My Stanford Instagram Takeover",
       link: "https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view",
       description: "Took over the Stanford Instagram for a day!",
-      fullDescription: "I'm a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! Check out the video!",
+      fullDescription: "My junior year, I was a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! Check out the video!",
       image: "takeover.png",
       imageStyle: { maxWidth: "300px", height: "auto" },
       role: "Creative",
@@ -559,7 +559,7 @@ const App = () => {
                 where I am learning about the Human-Robot Interaction frontier and programming robots to perform artsy tasks (Check out my Trolley Problem project below!).
               </p>
               <p>
-                Additionally, I am also building in VR with Unity and Pico4 to completement my XR and other interests.
+                Additionally, I am also building in VR with Unity and Pico4 to complement my XR and other interests.
               </p>
               <p>
                 Last summer, I was a Product Manager Intern at{" "}
@@ -594,7 +594,7 @@ const App = () => {
               </p>
 
               <p>
-                I've interested in full-stack dev, AR/VR, ML research, and data analytics and marketing. I've also worked abroad in Singapore and as a Frosh RA at Stanford! 
+                I'm interested in full-stack dev, AR/VR, ML research, and data analytics and marketing. I've also worked abroad in Singapore and as a Frosh RA at Stanford! 
               </p>
             </div>
           </div>
