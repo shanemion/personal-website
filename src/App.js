@@ -608,65 +608,71 @@ const App = () => {
       
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="max-w-4xl mx-auto px-6 py-24">
-          <div className="text-center space-y-8">
-            <div className="flex justify-center mb-8">
-              <div className="relative">
+        <section className="max-w-4xl mx-auto px-6 py-16">
+          <div className="flex flex-col items-center space-y-6">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              {/* Profile Picture */}
+              <div className="relative flex-shrink-0">
                 <img
                   src="shanepfp.jpeg"
                   alt="Shane Mion"
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-xl"
+                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-white dark:border-gray-800 shadow-xl"
                 />
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent to-gray-900/10 dark:to-white/10"></div>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-transparent to-gray-900/10 dark:to-white/10"></div>
+              </div>
+
+              {/* Name, Title, Links */}
+              <div className="flex flex-col items-center sm:items-start gap-3">
+                <div>
+                  <h1 className="text-4xl font-light text-gray-900 dark:text-white tracking-tight text-center sm:text-left">
+                    Shane Mion
+                  </h1>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 font-light mt-1 text-center sm:text-left">
+                    Product Manager & Developer | CS AI @ Stanford
+                  </p>
+                </div>
+                
+                <div className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2">
+                  <a
+                    href="mailto:smion@stanford.edu"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+                  >
+                    <Mail className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    <span>smion@stanford.edu</span>
+                  </a>
+                  <a
+                    href="https://github.com/shanemion"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+                  >
+                    <Github className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    <span>GitHub</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/shanemion/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+                  >
+                    <Linkedin className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    <span>LinkedIn</span>
+                  </a>
+                  <a
+                    href="https://docs.google.com/document/d/1UQWmvfHImD8bnoCvgm1cKPse1pJPJWxev-kxOBJJlX4/edit?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
+                  >
+                    <FileText className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    <span>Resume</span>
+                  </a>
+                </div>
               </div>
             </div>
-            
-            <div className="space-y-4">
-              <h1 className="text-5xl font-light text-gray-900 dark:text-white tracking-tight">
-                Shane Mion
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-400 font-light">
-                Product Manager & Developer | CS AI @ Stanford
-              </p>
-            </div>
-            
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-gray-400 dark:via-gray-600 to-transparent mx-auto"></div>
-            <div className="flex justify-center gap-8">
-              <a
-                href="mailto:smion@stanford.edu"
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
-              >
-                <Mail className="w-5 h-5 transition-transform group-hover:scale-110" />
-                <span>smion@stanford.edu</span>
-              </a>
-              <a
-                href="https://github.com/shanemion"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
-              >
-                <Github className="w-5 h-5 transition-transform group-hover:scale-110" />
-                <span>GitHub</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/shanemion/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
-              >
-                <Linkedin className="w-5 h-5 transition-transform group-hover:scale-110" />
-                <span>LinkedIn</span>
-              </a>
-              <a
-                href="https://docs.google.com/document/d/1UQWmvfHImD8bnoCvgm1cKPse1pJPJWxev-kxOBJJlX4/edit?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors group"
-              >
-                <FileText className="w-5 h-5 transition-transform group-hover:scale-110" />
-                <span>Resume</span>
-              </a>
-            </div>
+
+            {/* Horizontal Divider */}
+            <div className="w-48 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-600 to-transparent"></div>
           </div>
         </section>
 
