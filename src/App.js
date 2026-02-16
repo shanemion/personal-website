@@ -525,49 +525,6 @@ const App = () => {
     "Calvin and Hobbes :)"
   ];
 
-  const skillGroups = [
-    {
-      title: "Product & Leadership",
-      skills: [
-        "Product strategy",
-        "0→1 prototyping",
-        "User research",
-        "Cross-functional leadership",
-      ],
-    },
-    {
-      title: "Full‑Stack Engineering",
-      skills: [
-        "React",
-        "JavaScript/TypeScript",
-        "Tailwind CSS",
-        "Python",
-        "REST APIs",
-        "Firebase",
-      ],
-    },
-    {
-      title: "ML / Vision / Audio",
-      skills: [
-        "Computer vision",
-        "PyTorch",
-        "Whisper (transcription)",
-        "TinyML",
-        "Data analysis",
-      ],
-    },
-    {
-      title: "Robotics / Embedded / XR",
-      skills: [
-        "Robotics control & HRI",
-        "Embedded C/C++",
-        "Sensor + hardware integration",
-        "Unity (VR/XR)",
-        "Blender / 3D",
-      ],
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50/50 to-gray-100/30 dark:from-gray-950 dark:via-gray-900/80 dark:to-gray-800/20 transition-colors duration-500">
       {/* Header */}
@@ -579,7 +536,6 @@ const App = () => {
             {/* Navigation Links */}
             <nav className="hidden md:flex items-center gap-6">
               <button onClick={() => scrollToSection('about')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">About</button>
-              <button onClick={() => scrollToSection('skills')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Skills</button>
               <button onClick={() => scrollToSection('projects')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Projects</button>
               <button onClick={() => scrollToSection('interests')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Interests</button>
               <button onClick={() => scrollToSection('contact')} className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Contact</button>
@@ -807,33 +763,6 @@ const App = () => {
                 I'm interested in building products that bring extensions to the human experience, whether on the software, hardware, or product side, and am always learning new ways to do so!
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="max-w-7xl mx-auto px-6 py-16">
-          <h2 className="text-2xl font-light text-gray-900 dark:text-white mb-12">Skills</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {skillGroups.map((group) => (
-              <div
-                key={group.title}
-                className="p-6 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-800/50 rounded-xl hover:bg-white/70 dark:hover:bg-gray-900/70 transition-all duration-300"
-              >
-                <div className="text-sm font-medium text-gray-900 dark:text-white mb-4">
-                  {group.title}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200/60 dark:border-gray-700/60"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 
