@@ -716,7 +716,7 @@ const App = () => {
             
             <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
               <p>
-                I am currently building for novel medical device companies to help achieve predictable insurance coverage. Reach out if you're interested in learning more. 
+                I am currently building! Reach out if you're interested in learning more.
               </p>
               <p>
                 This quarter I am also involved with the Stanford Robotics Center as part of{" "}
