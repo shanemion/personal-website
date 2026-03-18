@@ -158,6 +158,12 @@ const ProjectItem = ({ project, featured = false }) => {
     SWE: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
     Research: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
     Creative: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
+    Hardware: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+    Robotics: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+    Audio: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+    CV: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+    XR: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+    "Full-Stack": "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   };
 
   return (
@@ -306,6 +312,18 @@ const App = () => {
 
   const projects = [
     {
+      name: "Pico 4: Mixed Reality 'Times Square'",
+      description: "A mixed reality project using See Through on the Pico 4 to create a 'Times Square' experience.",
+      fullDescription: "A mixed reality project using See Through on the Pico 4 to create a 'Times Square' experience. Project involves snapping multiple browser tabs to real-life surfaces (e.g. snap to walls, flush against tables, maybe even laptop screens). Then, interact with the surfaces as if they were a screen. <br><br><strong>📹 <a href='https://drive.google.com/file/d/1tHDpeJ5FF2q-eFo_fsniYJAGQDQJ8JoZ/view' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Click the video to view the demo →</a></strong>",
+      link: "https://drive.google.com/file/d/1tHDpeJ5FF2q-eFo_fsniYJAGQDQJ8JoZ/view",
+      image: "timessquare.png",
+      role: "XR",
+      tech: "Pico 4, See Through",
+      outcome: "Demo",
+      categories: ["XR"],
+      featured: true,
+    },
+    {
       name: "The Trolley Problem, as Seen by a Robot",
       description: "An artistic robotics vignette exploring AI decision-making using computer vision and ethical philosophy",
       fullDescription: "A creative exploration of how vision models and automated systems influence life-or-death decisions, using a Stretch robot to symbolically represent the trolley problem. The robot uses computer vision to detect humans on each track, aggregates confidence scores, and makes decisions based on probabilistic assessments—mirroring how modern military systems use vision models in surveillance and targeting pipelines. Built as a state machine to demonstrate how these decisions are constantly being \"made\" in the real world. The project combines Stretch's dextrous control and vision input with artistic expression to confront the unsettling reality of how AI systems quantify uncertainty and perceived threat, implicitly influencing outcomes involving human lives. <br><br><strong>📹 <a href='https://docs.google.com/presentation/d/1vJSCqMeFdonOv7iClOtSASlHQYyT4aMbv5gw0zUchcE/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the Demo Video & Presentation →</a></strong>",
@@ -315,7 +333,7 @@ const App = () => {
       tech: "Stretch Robot, CV",
       outcome: "Demo",
       categories: ["Robotics", "CV"],
-      featured: true,
+      featured: false,
     },
     {
       name: "ALERT: Audio-Visual Log Event Recognition Toolkit",
@@ -327,7 +345,7 @@ const App = () => {
       tech: "React, FastAPI, PyTorch",
       outcome: "Demo",
       categories: ["PM", "Full-Stack", "CV", "Audio"],
-      featured: true,
+      featured: false,
     },
     {
       name: "Speed Racer: Thunderhead Raceway Ray-Traced Render",
