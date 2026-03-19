@@ -173,11 +173,11 @@ const ProjectItem = ({ project, featured = false }) => {
     >
       {/* Thumbnail Preview */}
       {project.image && (
-        <div className="relative h-40 overflow-hidden bg-gray-100 dark:bg-gray-800">
+        <div className="relative h-40 overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
           <img
             src={project.image}
             alt={project.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${project.imageStyle?.objectFit === 'contain' ? 'object-contain' : 'object-cover'}`}
             style={project.imageStyle}
           />
           {featured && (
@@ -229,7 +229,7 @@ const ProjectItem = ({ project, featured = false }) => {
           </div>
         )}
 
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed line-clamp-2">
+        <p className={`text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed ${!isExpanded ? 'line-clamp-2' : ''}`}>
           {project.description}
         </p>
         
@@ -292,10 +292,10 @@ const App = () => {
 
   // SEO: Update document title and meta description
   useEffect(() => {
-    document.title = "Shane Mion - Product Manager & Developer | CS AI @ Stanford";
+    document.title = "Shane Mion - AI Systems, Robotics & Healthcare | Stanford CS";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Shane Mion is a Product Manager and Developer studying CS AI at Stanford. Building for medical device companies, working on robotics, XR, and full-stack projects. Former PM at TikTok, currently at VALUENEX.');
+      metaDescription.setAttribute('content', 'Shane Mion builds AI systems that connect perception, reasoning, and real-world decision-making. CS (AI) @ Stanford, TreeHacks Grand Prize Winner, former PM @ TikTok. Working on robotics, healthcare tech, and XR.');
     }
   }, []);
 
@@ -311,6 +311,18 @@ const App = () => {
   };
 
   const projects = [
+    {
+      name: "Reachy Mini Ouija Board",
+      description: "An immersive, AI-powered installation that reimagines the Ouija board as a robotic interface, where a motorized table and expressive robot spell out eerie responses to spoken questions.",
+      fullDescription: "Blending hardware, sound design, and AI, the project explores how humans form emotional connections to \"lost\" or deprecated intelligent systems. <br><br><strong>🎥 <a href='https://docs.google.com/document/d/1pDZs6lGY-g5zpCYlL2hRtLJ-xzpNgP6HBfQaALIDmME/edit?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>See videos from our exhibit & full writeup →</a></strong>",
+      link: "https://docs.google.com/document/d/1pDZs6lGY-g5zpCYlL2hRtLJ-xzpNgP6HBfQaALIDmME/edit?usp=sharing",
+      image: "reachy.JPEG",
+      role: "SWE",
+      tech: "Robotics, AI, Sound Design, Motors",
+      outcome: "Interactive Installation",
+      categories: ["Robotics", "Hardware", "Software", "Art"],
+      featured: true
+    },
     {
       name: "Pico 4: Mixed Reality 'Times Square'",
       description: "A mixed reality project using See Through on the Pico 4 to create a 'Times Square' experience.",
@@ -362,7 +374,7 @@ const App = () => {
     {
       name: "Cleo: A Smart Wearable with Embedded AMOLED Display Applications",
       description: "Embedded applications for T5-E1 Touch AMOLED device with animated displays",
-      fullDescription: "Embedded applications for the T5-E1 Touch AMOLED 1.75 device. Built two applications: Spiral Display (animated spiral pattern using digit characters with touch interaction) and Particle Name (dynamic particle-based display of \"SHANE\" with wave motion and touch interaction). Developed using TuyaOpen SDK and C/C++. <br><br>Check out the <a href='https://github.com/sutyazz/Martian-Project' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
+      fullDescription: "Embedded applications for the T5-E1 Touch AMOLED 1.75 device. Built two applications: Spiral Display (animated spiral pattern using digit characters with touch interaction) and Particle Name (dynamic particle-based display of \"SHANE\" with wave motion and touch interaction). Developed using TuyaOpen SDK and C/C++. <br><br><strong>📂 <a href='https://github.com/sutyazz/Martian-Project' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>View the project on GitHub →</a></strong>",
       link: "https://github.com/sutyazz/Martian-Project",
       image: "cleo.jpg",
       video: "https://drive.google.com/file/d/1A1-TINn06BsAWFJfNKR5uzaCKOWz9e8O/preview",
@@ -374,7 +386,7 @@ const App = () => {
     {
       name: "Aetherglass: Teensy Smart Glasses Audio Synth System",
       description: "A wearable smart glasses audio system with cameras, IMU, and mic input from scratch",
-      fullDescription: "Designed and built a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects. Sound demo coming sept when I get home lol, it works!",
+      fullDescription: "Designed and built a wearable smart glasses audio system from scratch, owning all hardware, embedded software, and product decisions to map motion, mic input, embedded TinyML CV, and touch into real-time ambient audio effects. Sound demo coming sept when I get home lol, it works! <br><br><strong>📂 <a href='https://github.com/shanemion/smartglasses' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>View the project on GitHub →</a></strong>",
       link: "https://github.com/shanemion/smartglasses",
       image: "hold.jpeg",
       role: "PM",
@@ -387,7 +399,7 @@ const App = () => {
       name: "Robin: An Electronic EP",
       link: "https://drive.google.com/drive/folders/1WAHD1A9JcdC04IjIWpkoEm6IpvZQ-Z9a?usp=sharing",
       description: "Music and electronic sound projects I created as part of Music 101 at Stanford",
-      fullDescription: "View the Read me in the google drive folder for more context!",
+      fullDescription: "View the Read me in the google drive folder for more context! <br><br><strong>🎵 <a href='https://drive.google.com/drive/folders/1WAHD1A9JcdC04IjIWpkoEm6IpvZQ-Z9a?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Listen to the EP on Google Drive →</a></strong>",
       image: "ep_cover_copy.JPG",
       role: "Creative",
       tech: "Ableton, Sound Design",
@@ -398,7 +410,7 @@ const App = () => {
       name: "Where's Mario",
       link: "https://www.youtube.com/watch?v=AMpYp83kBhQ&list=PLXzeYRsYhNoooF1e_A3DTTCj36sSh4dik&index=3",
       description: "Autonomous driving project for Stanford's ME210",
-      fullDescription: "A project for Stanford's ME210, Intro to Mechatronics. Configured multiple Arduino Unos with sensors, motors, and actuators to build an autonomous robot chef. Click to check out the video! (our battery pack came undone lol)",
+      fullDescription: "A project for Stanford's ME210, Intro to Mechatronics. Configured multiple Arduino Unos with sensors, motors, and actuators to build an autonomous robot chef. (Our battery pack came undone lol) <br><br><strong>🎥 <a href='https://www.youtube.com/watch?v=AMpYp83kBhQ&list=PLXzeYRsYhNoooF1e_A3DTTCj36sSh4dik&index=3' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the demo video →</a></strong>",
       image: "wheresmario.jpeg",
       role: "PM",
       tech: "Arduino, Sensors",
@@ -409,7 +421,7 @@ const App = () => {
       name: "Loci: Memory Palace",
       link: "https://www.linkedin.com/feed/update/urn:li:activity:7217186134391443456/",
       description: "AR/VR app for memory training",
-      fullDescription: "Memory champions don't remember everything in a cursory manner; they use the Loci technique, storing lists in familiar places. Loci: Memory Palace brings this method to life in the AVP. Walk through virtual environments that feel like home and attach objects to train your memory. Our demo features 50 dad jokes scattered throughout the palace, making memorization fun and effective. <br><br>Check out the <a href='https://github.com/shanemion/Loci' target='_blank' rel='noopener noreferrer'>GitHub</a> for more details.",
+      fullDescription: "Memory champions don't remember everything in a cursory manner; they use the Loci technique, storing lists in familiar places. Loci: Memory Palace brings this method to life in the AVP. Walk through virtual environments that feel like home and attach objects to train your memory. Our demo features 50 dad jokes scattered throughout the palace, making memorization fun and effective. <br><br><strong>📱 <a href='https://www.linkedin.com/feed/update/urn:li:activity:7217186134391443456/' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>See the demo on LinkedIn →</a></strong> | <a href='https://github.com/shanemion/Loci' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline;'>GitHub</a>",
       image: "loci.png",
       role: "PM",
       tech: "Unity, Apple Vision Pro",
@@ -420,7 +432,7 @@ const App = () => {
       name: "CribU",
       link: "https://forms.gle/GNRKwJzCa6HeBFBs6",
       description: "Find your next internship roommate from your own school",
-      fullDescription: "Stanford internship/full-time roommate matching app. Received 750+ impressions on beta announcement day.",
+      fullDescription: "Stanford internship/full-time roommate matching app. Received 750+ impressions on beta announcement day. <br><br><strong>📝 <a href='https://forms.gle/GNRKwJzCa6HeBFBs6' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Sign up for CribU →</a></strong>",
       image: "cribu.png",
       role: "PM",
       tech: "React, Firebase",
@@ -431,7 +443,7 @@ const App = () => {
       name: "AirGtr",
       link: "https://github.com/jacobr12/CS231n-project",
       description: "A gesture warping guitar with no physical instrument",
-      fullDescription: "CV-based system that maps hand gestures to MIDI for expressive guitar performance with no physical instrument.",
+      fullDescription: "CV-based system that maps hand gestures to MIDI for expressive guitar performance with no physical instrument. <br><br><strong>📂 <a href='https://github.com/jacobr12/CS231n-project' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>View the project on GitHub →</a></strong>",
       image: "airgtr.png",
       role: "Research",
       tech: "Python, CV, MIDI",
@@ -442,7 +454,7 @@ const App = () => {
       name: "MimicSpeech",
       link: "https://mimicspeech.com",
       description: "A webapp to perfect your accent by mimicking native speakers",
-      fullDescription: "Personal project designed to help improve accent and listening ability for foreign languages by recording themselves speak over a natural sounding, AI Text to Speech, presenting visual and calculated feedback. Built from scratch using Create React App",
+      fullDescription: "Personal project designed to help improve accent and listening ability for foreign languages by recording themselves speak over a natural sounding, AI Text to Speech, presenting visual and calculated feedback. Built from scratch using Create React App. <br><br><strong>🌐 <a href='https://mimicspeech.com' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Try MimicSpeech now →</a></strong>",
       image: "mimicspeech.png",
       role: "PM",
       tech: "React, TTS API",
@@ -453,7 +465,7 @@ const App = () => {
       name: "TreeHacks 2024 Opening Ceremony Video",
       link: "https://drive.google.com/file/d/1LIeQEh1OhWNXcOG6xWyoAFTOsiDVgv07/view?usp=sharing",
       description: "Directed, filmed, edited, and acted in the opening ceremony video for TreeHacks 10th anniversary",
-      fullDescription: "Had a blast on this one, so much fun to make! Give it a watch.",
+      fullDescription: "Had a blast on this one, so much fun to make! Give it a watch. <br><br><strong>🎬 <a href='https://drive.google.com/file/d/1LIeQEh1OhWNXcOG6xWyoAFTOsiDVgv07/view?usp=sharing' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the opening ceremony video →</a></strong>",
       image: "opening.png",
       role: "Creative",
       tech: "Video Production",
@@ -464,7 +476,7 @@ const App = () => {
       name: "Carbonle",
       link: "https://carbonle.vercel.app/",
       description: "A Wordle for Carbon Emissions per Country",
-      fullDescription: "Made for TreeHacks 2025",
+      fullDescription: "Made for TreeHacks 2025. <br><br><strong>🎮 <a href='https://carbonle.vercel.app/' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Play Carbonle now →</a></strong>",
       image: "carbonle.png",
       role: "SWE",
       tech: "Next.js, Vercel",
@@ -475,9 +487,9 @@ const App = () => {
       name: "My Stanford Instagram Takeover",
       link: "https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view",
       description: "Took over the Stanford Instagram for a day!",
-      fullDescription: "My junior year, I was a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! Check out the video!",
-      image: "takeover.png",
-      imageStyle: { maxWidth: "300px", height: "auto" },
+      fullDescription: "My junior year, I was a frosh RA in Wilbur Hall (ARROYO!!) and got to take over the Stanford Instagram for a day! <br><br><strong>📹 <a href='https://drive.google.com/file/d/1UjxB6d0Y-YdUFxoEK_tqRGqgdodJKyca/view' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Watch the takeover video →</a></strong>",
+      image: "takeover1.png",
+      imageStyle: { objectFit: "contain" },
       role: "Creative",
       tech: "Content Creation",
       outcome: "10K+ Reach",
@@ -487,7 +499,9 @@ const App = () => {
       name: "Joint Detection",
       link: "https://github.com/shanemion/jointdetection",
       description: "CV model for hand joint detection",
-      fullDescription: "Wanted to get a footing in future smart wearable tech, so created this joint detection CV model and stored appropriate metrics to gather motion data for smart-ring wearable project I'm working on!",
+      fullDescription: "Wanted to get a footing in future smart wearable tech, so created this joint detection CV model and stored appropriate metrics to gather motion data for smart-ring wearable project I'm working on! <br><br><strong>📂 <a href='https://github.com/shanemion/jointdetection' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>View the project on GitHub →</a></strong>",
+      image: "joint_graph.png",
+      imageStyle: { objectFit: "contain" },
       role: "Research",
       tech: "Python, OpenCV",
       outcome: "Model",
@@ -497,7 +511,7 @@ const App = () => {
       name: "Pitch to Contact",
       link: "https://pitch-to-contact.web.app/",
       description: "Interactive statistics/ml project for cs109",
-      fullDescription: "An extra-credit project I procrastinated for Stanford's CS109, Probability for Computer Scientists. Made in 11 hours. Utilizes the logistic regression machine learning algorithm on a bunch of pitcher related data. Takes into account pitcher arm slot (release position), with a bunch of other happy things found here: 'release_speed', 'release_spin_rate', 'release_pos_x', 'release_pos_z', 'pfx_x', 'pfx_z', 'plate_x', 'plate_z', 'zone' <br><br>Check out <a href='https://github.com/shanemion/mlbproject' target='_blank' rel='noopener noreferrer'>the GitHub</a>.",
+      fullDescription: "An extra-credit project I procrastinated for Stanford's CS109, Probability for Computer Scientists. Made in 11 hours. Utilizes the logistic regression machine learning algorithm on a bunch of pitcher related data. Takes into account pitcher arm slot (release position), with a bunch of other happy things found here: 'release_speed', 'release_spin_rate', 'release_pos_x', 'release_pos_z', 'pfx_x', 'pfx_z', 'plate_x', 'plate_z', 'zone' <br><br><strong>🌐 <a href='https://pitch-to-contact.web.app/' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>Try the interactive app →</a></strong> | <a href='https://github.com/shanemion/mlbproject' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline;'>GitHub</a>",
       image: "pitch.png",
       role: "Research",
       tech: "Python, ML",
@@ -508,7 +522,7 @@ const App = () => {
       name: "Spotify Looper",
       link: "https://github.com/shanemion/spotifylooper",
       description: "Spotify API project, loop that one OMG part of a really eh song",
-      fullDescription: "Spotify Looper is a Python project that leverages the Spotify API to create a customizable looping feature for your favorite tracks. The loop's start and end times can be defined manually in the format MM:SS. This application uses the tkinter library to provide a simple and straightforward user interface.",
+      fullDescription: "Spotify Looper is a Python project that leverages the Spotify API to create a customizable looping feature for your favorite tracks. The loop's start and end times can be defined manually in the format MM:SS. This application uses the tkinter library to provide a simple and straightforward user interface. <br><br><strong>📂 <a href='https://github.com/shanemion/spotifylooper' target='_blank' rel='noopener noreferrer' style='color: #2563eb; text-decoration: underline; font-weight: 600;'>View the project on GitHub →</a></strong>",
       image: "spotify.png",
       role: "SWE",
       tech: "Python, Spotify API",
@@ -602,7 +616,10 @@ const App = () => {
                     Shane Mion
                   </h1>
                   <p className="text-lg text-gray-600 dark:text-gray-400 font-light mt-1 text-center sm:text-left">
-                    Product Manager & Developer | CS AI @ Stanford
+                  building across AI, robotics, and product.
+                  </p>
+                  <p className="text-med text-gray-600 dark:text-gray-400 mt-2 text-center sm:text-left">
+                    CS (AI) @ Stanford · prev PM @ TikTok 
                   </p>
                 </div>
                 
@@ -737,17 +754,49 @@ const App = () => {
                 I am currently building! Reach out if you're interested in learning more.
               </p>
               <p>
-                This quarter I am also involved with the Stanford Robotics Center as part of{" "}
+                This quarter I am joining the Stanford Robotics Center as a researcher with the{" "}
+                <a
+                  href="https://src.stanford.edu/soar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
+                >
+                  SOAR Lab
+                </a>{" "}
+                working on Human-Robot Interaction and autonomous navigation systems for assistive robotics.
+              </p>
+              <p>
+                Last quarter I took{" "}
                 <a
                   href="https://robots-and-arts.github.io/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
                 >
-                  CS334: Robots and Arts.
+                  CS334: Robots and Arts,
                 </a>{" "}
-                where I am learning about Human-Robot Interaction. I'm also building in VR with Unity and Pico4 to continue learning about XR/AR.
+                where I learned about Human-Robot Interaction and created an interactive, immersive installation with{" "}
+                <a
+                  href="https://docs.google.com/document/d/1pDZs6lGY-g5zpCYlL2hRtLJ-xzpNgP6HBfQaALIDmME/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
+                >
+                   Reachy Mini and an Ouija Board.
+                </a>
+                </p>
+                <p>
+                I also built a Mixed Reality{" "}
+                <a
+                  href="https://drive.google.com/file/d/1tHDpeJ5FF2q-eFo_fsniYJAGQDQJ8JoZ/view"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-900 dark:text-white font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors border-b border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400"
+                >
+                  "Times Square" experience
+                </a>
 
+                 {" "}with the Pico 4 allowing me to turn my walls and tables into scrollable screens.
               </p>
               <p>
                 Last summer, I was a Product Manager Intern at{" "}
